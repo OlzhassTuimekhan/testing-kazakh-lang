@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Нәтижелер</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Барлық тест нәтижелері</h1>
+    <div id="results"></div>
+    <button onclick="clearResults()">Нәтижелерді өшіру</button>
+    <button onclick="goBack()">Басты бетке қайту</button>
+  </div>
+  <script>
+    // Retrieve results from localStorage and display them
+    const resultsContainer = document.getElementById("results");
+    const storedResults = JSON.parse(localStorage.getItem("testResults")) || [];
+
+    if (storedResults.length > 0) {
+      storedResults.forEach((result, index) => {
+        const resultElement = document.createElement("div");
+        resultElement.style.marginBottom = "20px";
+        resultElement.innerHTML = `
+          <strong>Тест #${index + 1}</strong><br>
+          Күні: ${result.date}<br>
+          Ұпай: ${result.score}/${result.totalQuestions}<br>
+          Процент: ${result.percentage}%<br>
+          Деңгей: ${result.level}
+        `;
+        resultsContainer.appendChild(resultElement);
+      });
+    } else {
+      resultsContainer.innerHTML = "<p>Нәтижелер табылмады!</p>";
+    }
+
+    // Clear all results
+    function clearResults() {
+      localStorage.removeItem("testResults");
+      resultsContainer.innerHTML = "<p>Нәтижелер өшірілді!</p>";
+    }
+
+    // Go back to the quiz page
+    function goBack() {
+      window.location.href = "main.html";
+    }
+  </script>
+</body>
+</html>
